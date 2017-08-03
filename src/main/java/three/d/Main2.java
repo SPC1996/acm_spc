@@ -3,97 +3,94 @@ package three.d;
 import java.util.Scanner;
 
 public class Main2 {
-	private static int[][] weight=new int[200][200];
-	private static int[] u=new int[200];
-	
+    private static int[][] weight = new int[200][200];
+    private static int[] u = new int[200];
 
-	public static void main(String[] args) {
-		@SuppressWarnings("resource")
-		Scanner scanner=new Scanner(System.in);
-		int m,n,start,end;
-		while(scanner.hasNext()){
-			n=scanner.nextInt();
-			m=scanner.nextInt();
-			for(int i=0;i<n;i++){
-				for(int j=0;j<n;j++)
-					if(i==j)
-						weight[i][j]=0;
-					else
-						weight[i][j]=10000;	
-				u[i]=10000;
-			}
-			int a,b,x;
-			for(int i=0;i<m;i++){
-				a=scanner.nextInt();
-				b=scanner.nextInt();
-				x=scanner.nextInt();
-				if(x<weight[a][b]){
-					weight[a][b]=x;
-					weight[b][a]=x;
-				}
-			}
-			start=scanner.nextInt();
-			end=scanner.nextInt();
-			System.out.println(dijsktra(start)[end]);
-			for(int i=0;i<n;i++)
-				System.out.print(u[i]+" ");
-		}
-	}
-	
-	public static int[] dijsktra(int start){
-	     //½ÓÊÜÒ»¸öÓÐÏòÍ¼µÄÈ¨ÖØ¾ØÕó£¬ºÍÒ»¸öÆðµã±àºÅstart£¨´Ó0±àºÅ£¬¶¥µã´æÔÚÊý×éÖÐ£©
-	        //·µ»ØÒ»¸öint[] Êý×é£¬±íÊ¾´Óstartµ½ËüµÄ×î¶ÌÂ·¾¶³¤¶È
-	        int n = weight.length;        //¶¥µã¸öÊý
-	        int[] shortPath = new int[n];    //´æ·Å´Óstartµ½ÆäËû¸÷µãµÄ×î¶ÌÂ·¾¶
-	        String[] path=new String[n]; //´æ·Å´Óstartµ½ÆäËû¸÷µãµÄ×î¶ÌÂ·¾¶µÄ×Ö·û´®±íÊ¾
-	         for(int i=0;i<n;i++)
-	             path[i]=new String(start+"-->"+i);
-	        int[] visited = new int[n];   //±ê¼Çµ±Ç°¸Ã¶¥µãµÄ×î¶ÌÂ·¾¶ÊÇ·ñÒÑ¾­Çó³ö,1±íÊ¾ÒÑÇó³ö
-	        
-	        //³õÊ¼»¯£¬µÚÒ»¸ö¶¥µãÇó³ö
-	        shortPath[start] = 0;
-	        visited[start] = 1;
 
-	        for(int count = 1;count <= n - 1;count++)  //Òª¼ÓÈën-1¸ö¶¥µã
-	        {
-	 
-	            int k = -1;    //Ñ¡³öÒ»¸ö¾àÀë³õÊ¼¶¥µãstart×î½üµÄÎ´±ê¼Ç¶¥µã
-	            int dmin = Integer.MAX_VALUE;
-	            for(int i = 0;i < n;i++)
-	            {
-	                if(visited[i] == 0 && weight[start][i] < dmin)
-	                {
-	                    dmin = weight[start][i];
-	                   
-	                    k = i;
-	                }  
-	                    
-	            }
-	            System.out.println("k="+k);
-	             
-	            //½«ÐÂÑ¡³öµÄ¶¥µã±ê¼ÇÎªÒÑÇó³ö×î¶ÌÂ·¾¶£¬ÇÒµ½startµÄ×î¶ÌÂ·¾¶¾ÍÊÇdmin
-	            shortPath[k] = dmin;
+    public static void main(String[] args) {
+        @SuppressWarnings("resource")
+        Scanner scanner = new Scanner(System.in);
+        int m, n, start, end;
+        while (scanner.hasNext()) {
+            n = scanner.nextInt();
+            m = scanner.nextInt();
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++)
+                    if (i == j)
+                        weight[i][j] = 0;
+                    else
+                        weight[i][j] = 10000;
+                u[i] = 10000;
+            }
+            int a, b, x;
+            for (int i = 0; i < m; i++) {
+                a = scanner.nextInt();
+                b = scanner.nextInt();
+                x = scanner.nextInt();
+                if (x < weight[a][b]) {
+                    weight[a][b] = x;
+                    weight[b][a] = x;
+                }
+            }
+            start = scanner.nextInt();
+            end = scanner.nextInt();
+            System.out.println(dijsktra(start)[end]);
+            for (int i = 0; i < n; i++)
+                System.out.print(u[i] + " ");
+        }
+    }
 
-	            visited[k] = 1;
-	  
-	            //ÒÔkÎªÖÐ¼äµã£¬ÐÞÕý´Óstartµ½Î´·ÃÎÊ¸÷µãµÄ¾àÀë
-	            for(int i = 0;i < n;i++)
-	            {                 // System.out.println("k="+k);
-	                if(visited[i] == 0 && weight[start][k] + weight[k][i] < weight[start][i]){
-	                     weight[start][i] = weight[start][k] + weight[k][i];
-	                   
-	                     path[i]=path[k]+"-->"+i;
-	                    
-	                }
-	                
-	            }  
-	     
-	        }
-	         for(int i=0;i<n;i++)
-	           System.out.println("´Ó"+start+"³ö·¢µ½"+i+"µÄ×î¶ÌÂ·¾¶Îª£º"+path[i]);  
-	         System.out.println("=====================================");
-	      
-	        return shortPath;
-	    }
+    public static int[] dijsktra(int start) {
+        //ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½È¨ï¿½Ø¾ï¿½ï¿½ó£¬ºï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½startï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½Å£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½
+        //ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½int[] ï¿½ï¿½ï¿½é£¬ï¿½ï¿½Ê¾ï¿½ï¿½startï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        int n = weight.length;        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        int[] shortPath = new int[n];    //ï¿½ï¿½Å´ï¿½startï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
+        String[] path = new String[n]; //ï¿½ï¿½Å´ï¿½startï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
+        for (int i = 0; i < n; i++)
+            path[i] = new String(start + "-->" + i);
+        int[] visited = new int[n];   //ï¿½ï¿½Çµï¿½Ç°ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½,1ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½
+
+        //ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        shortPath[start] = 0;
+        visited[start] = 1;
+
+        for (int count = 1; count <= n - 1; count++)  //Òªï¿½ï¿½ï¿½ï¿½n-1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        {
+
+            int k = -1;    //Ñ¡ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½startï¿½ï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½Ç¶ï¿½ï¿½ï¿½
+            int dmin = Integer.MAX_VALUE;
+            for (int i = 0; i < n; i++) {
+                if (visited[i] == 0 && weight[start][i] < dmin) {
+                    dmin = weight[start][i];
+
+                    k = i;
+                }
+
+            }
+            System.out.println("k=" + k);
+
+            //ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½startï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½dmin
+            shortPath[k] = dmin;
+
+            visited[k] = 1;
+
+            //ï¿½ï¿½kÎªï¿½Ð¼ï¿½ã£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½startï¿½ï¿½Î´ï¿½ï¿½ï¿½Ê¸ï¿½ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½
+            for (int i = 0; i < n; i++) {                 // System.out.println("k="+k);
+                if (visited[i] == 0 && weight[start][k] + weight[k][i] < weight[start][i]) {
+                    weight[start][i] = weight[start][k] + weight[k][i];
+
+                    path[i] = path[k] + "-->" + i;
+
+                }
+
+            }
+
+        }
+        for (int i = 0; i < n; i++)
+            System.out.println("ï¿½ï¿½" + start + "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" + i + "ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½Îªï¿½ï¿½" + path[i]);
+        System.out.println("=====================================");
+
+        return shortPath;
+    }
 
 }

@@ -3,9 +3,8 @@ package five.b;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Main {
+public class Main2 {
     public static void main(String[] args) {
-        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
         int a = scanner.nextInt();
         int b = scanner.nextInt();
@@ -29,18 +28,16 @@ public class Main {
                 }
             }
             System.out.print(last + " ");
-
         }
     }
 
     private static int binarySearch(int[] array, int low, int high, int key) {
-        int mid;
-        while (low <= high) {
-            mid = (low + high) / 2;
-            if (array[mid] <= key) {
-                low = mid + 1;
-            } else {
-                high = mid - 1;
+        while (low < high) {
+            int m = low + (high - low) / 2;
+            if (array[m] <= key) {
+                low = m + 1;
+            } else if (array[m] > key) {
+                high = m;
             }
         }
         return low;
